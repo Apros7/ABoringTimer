@@ -4,43 +4,47 @@ function pad(val) {
 
 var timer;
 var startTime;
-var remainingTime = 0;
+var totalTimer = 0;
 
-function updateTimer() {
-	var now = new Date().getTime();
-	var distance = now - startTime + remainingTime;
-	var hours = Math.floor(distance / (1000 * 60 * 60));
-	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+function updateTimer(addedTime) {
+	totalTimer += addedTime;
+	console.log(totalTimer)
+	var hours = Math.floor(totalTimer / (1000 * 60 * 60));
+	var minutes = Math.floor((totalTimer % (1000 * 60 * 60)) / (1000 * 60));
+	var seconds = Math.floor((totalTimer % (1000 * 60)) / 1000);
 	document.getElementById("timer").innerHTML = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
 }
 
-document.getElementById("minus-one-min").addEventListener("click", function() {
-	remainingTime -= 60 * 1000;
-	updateTimer();
+minus_one_min = document.getElementById("minus-one-min")
+minus_fifteen_sec = document.getElementById("minus-fifteen-sec")
+plus_one_min = document.getElementById("plus-one-min")
+plus_fifteen_sec = document.getElementById("plus-fifteen-sec")
+
+minus_one_min.addEventListener("click", function() {
+	const remainingTime = 60 * 1000;
+	updateTimer(remainingTime);
 });
 
-document.getElementById("minus-fifteen-sec").addEventListener("click", function() {
-	remainingTime -= 15 * 1000;
-	updateTimer();
+minus_fifteen_sec.addEventListener("click", function() {
+	const remainingTime = 15 * 1000;
+	updateTimer(remainingTime);
 });
 
-document.getElementById("plus-fifteen-sec").addEventListener("click", function() {
-	remainingTime += 15 * 1000;
-	updateTimer();
+plus_fifteen_sec.addEventListener("click", function() {
+	const remainingTime = 15 * 1000;
+	updateTimer(remainingTime);
 });
 
-document.getElementById("plus-one-min").addEventListener("click", function() {
-	remainingTime += 60 * 1000;
-	updateTimer();
+plus_one_min.addEventListener("click", function() {
+	const remainingTime = 60 * 1000;
+	updateTimer(remainingTime);
 });
 
 document.getElementById("start-timer").addEventListener("click", function() {
-	if (timer) {
+	var timer = setInterval(function() {
+	  updateTimer(-1000);
+	  if (totalTimer <= 0) {
 		clearInterval(timer);
-		timer = null;
-	} else {
-		startTime = new Date().getTime();
-		timer = setInterval(updateTimer, 1000);
-	}
-});
+	  }
+	}, 1000);
+  });
