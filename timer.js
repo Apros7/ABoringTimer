@@ -11,22 +11,22 @@ audio.volume = 0;
 function music() {
 	if (isPaused) {
         var interval = setInterval(function() {
-            audio.volume -= 0.01
+            audio.volume -= 0.02
             if (audio.volume <= 0.02) {
 				audio.volume = 0
                 audio.pause();
                 clearInterval(interval);
             }
-        }, 100);
+        }, 50);
     }
 	if (isPaused == false) {
         audio.play();
         var interval = setInterval(function() {
-            audio.volume += 0.01;
+            audio.volume += 0.02;
             if (audio.volume >= 0.2) {
                 clearInterval(interval);
             }
-        }, 100);
+        }, 50);
     }
 }
 
@@ -36,6 +36,8 @@ setInterval(function() {
 	}
 }, 100);
 
+clock = document.getElementById("timer")
+
 function updateTimer(addedTime) {
     totalTimer += addedTime;
     if (totalTimer < 0) {
@@ -44,7 +46,7 @@ function updateTimer(addedTime) {
     var hours = Math.floor(totalTimer / (1000 * 60 * 60));
     var minutes = Math.floor((totalTimer % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((totalTimer % (1000 * 60)) / 1000);
-    document.getElementById("timer").innerHTML = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
+    clock.innerHTML = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
 }
 
 minus_one_min = document.getElementById("minus-one-min")
@@ -98,19 +100,55 @@ function pauseTimer() {
 	clearInterval(timer);
 }
 
+start_button_container = document.getElementById("start-button-container")
+const quote = document.getElementById("quote");
+quote.innerHTML = "Life's greatest prizes lie on the other side of pain"
+
+function setQuoteStyle(set) {
+	if (set) {
+		quote.style.fontFamily = "Arial, sans-serif";
+		quote.style.fontSize = "80px";
+		quote.style.color = "#333";
+		quote.style.marginBottom = "24px";
+	  } else {
+		quote.style.fontFamily = null;
+		quote.style.fontSize = null;
+		quote.style.color = null;
+		quote.style.marginBottom = null;
+	  }
+}
+
 start_button.addEventListener("click", function() {
 	if (isPaused) {
 		isPaused = false;
+		setQuoteStyle(true);
 		startTimer();
 		music();
 		start_button.innerHTML = "Pause";
+		timer_buttons.style.opacity = 0;
 		timer_buttons.style.display = "none";
+		start_button_container.style.transform = "translateY(200px)";
+		clock.style.transform = "translateY(-200px)";
+		setTimeout(function() {
+			quote.style.opacity = 1;
+		}, 2000)
 	} else {
+		quote.style.opacity = 0;
 		isPaused = true;
-		pauseTimer();
 		music();
-		start_button.innerHTML = "Start";
-		timer_buttons.style.display = "flex";
+		setTimeout(function() {
+			setTimeout(function() {
+				setQuoteStyle(false);
+			}, 500)
+			start_button_container.style.transform = "translateY(-.2px)";
+			clock.style.transform = "translateY(.2px)";
+			pauseTimer();
+			start_button.innerHTML = "Start";
+			timer_buttons.style.display = "flex";
+			setTimeout(function() {
+				timer_buttons.style.opacity = 1;
+			}, 500)
+		}, 500)
 	}
 });
 
