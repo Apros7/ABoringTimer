@@ -1,9 +1,13 @@
 # ABoringTimer
 A simple timer with some nice music
 Add your own music in a folder called music and then edit line 8 in timer.js.
-
-To make it into an macbook app use election:
+Then simply just run open_html.sh with
 ```
-npm install -g electron
-electron-packager . MyApp --platform=darwin --arch=x64 --icon=./icon.icns
+chmod +x open_html.sh
+./openhtml.sh
 ```
+or you could make an alias with
+```
+alias openhtml='./openhtml.sh'
+```
+**Remember to change your path to index.html in the open_html.sh script**
