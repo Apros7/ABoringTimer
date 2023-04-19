@@ -1,20 +1,39 @@
 body {
-	background-color: #ccc;
-	height: 100vh;
-	margin: 0;
+    background-color: #ccc;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .timer-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin-top: 15em;
+}
+
+.shortcut-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
 }
 
 #timer {
 	font-family: Arial, sans-serif;
 	font-size: 100px;
+	color: #333;
+	margin-bottom: 24px;
+}
+
+#shortcut {
+    margin-top: 3em;
+    font-family: Arial, sans-serif;
+	font-size: 40px;
 	color: #333;
 	margin-bottom: 24px;
 }
@@ -26,7 +45,7 @@ body {
 	justify-content: center;
 }
 
-.button {
+button {
 	padding: 8px 16px;
 	margin: 8px;
 	background-color: #333;
@@ -39,6 +58,6 @@ body {
 	transition: all 0.2s ease;
 }
 
-.button:hover {
+button:hover {
 	background-color: #666;
 }
