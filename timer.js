@@ -23,7 +23,7 @@ function music() {
         audio.play();
         var interval = setInterval(function() {
             audio.volume += 0.01;
-            if (audio.volume >= 0.1) {
+            if (audio.volume >= 0.2) {
                 clearInterval(interval);
             }
         }, 100);
