@@ -6,6 +6,14 @@ var timer;
 var startTime;
 var totalTimer = 0;
 var audio = new Audio("music/jazz.mp3");
+const randomTime = Math.floor(Math.random() * 1800);
+audio.addEventListener("timeupdate", function() {
+	// no music here
+	if (audio.currentTime >= 1640 && audio.currentTime <= 1980) {
+	  audio.currentTime = 1980;
+	}
+  });
+audio.currentTime = randomTime;
 audio.volume = 0;
 
 function music() {
