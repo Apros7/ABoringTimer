@@ -16,6 +16,8 @@ audio.addEventListener("timeupdate", function() {
 audio.currentTime = randomTime;
 audio.volume = 0;
 
+var isPaused = true;
+
 function music() {
 	if (isPaused) {
         var interval = setInterval(function() {
@@ -39,12 +41,58 @@ function music() {
 }
 
 setInterval(function() {
-	if (totalTimer <= 0.1 && isPaused == false) {
+	if (totalTimer <= -0.01 && isPaused == false) {
 		start_button.click();
 	}
 }, 100);
 
 clock = document.getElementById("timer")
+continue_button = document.getElementById("continue-timer")
+music_button = document.getElementById("music-timer")
+let play_music = true
+
+setInterval(function() {
+	if (totalTimer > 0 && isPaused == true) {
+		continue_button.style.display = "block";
+	} else {
+		continue_button.style.display = "none";
+	}	
+	if (isPaused == true) {
+		music_button.style.display = "block";
+	} else {
+		music_button.style.display = "none";
+	}
+}, 1000)
+
+music_button.addEventListener("click", function() {
+	if (play_music) {
+		play_music = false;
+		music_button.innerHTML = "Music is off";
+	} else {
+		play_music = true;
+		music_button.innerHTML = "Music is on";
+	}
+})
+
+continue_button.addEventListener("click", function() {
+	timer = setInterval(function() {
+		updateTimer(1000);
+	}, 1000);
+	isPaused = false;
+	setQuoteStyle(true);
+	if (play_music) {
+		music();
+	}
+	start_button.innerHTML = "Pause";
+	timer_buttons.style.opacity = 0;
+	timer_buttons.style.display = "none";
+	start_button_container.style.transform = "translateY(200px)";
+	clock.style.transform = "translateY(-200px)";
+	setTimeout(function() {
+		quote.style.opacity = 1;
+	}, 2000)
+})
+
 
 function updateTimer(addedTime) {
     totalTimer += addedTime;
@@ -91,17 +139,20 @@ plus_one_min.addEventListener("click", function() {
 
 start_button = document.getElementById("start-timer")
 timer_buttons = document.getElementById("timer-buttons")
-var isPaused = true;
-
-
 
 function startTimer() {
-	timer = setInterval(function() {
-		updateTimer(-1000);
-		if (totalTimer <= 0) {
-			clearInterval(timer);
-		}
-	}, 1000);
+	if (totalTimer == 0) {
+		timer = setInterval(function() {
+			updateTimer(1000);
+		}, 1000);
+	} else {
+		timer = setInterval(function() {
+			updateTimer(-1000);
+			if (totalTimer <= 0) {
+				clearInterval(timer);
+			}
+		}, 1000);
+	}
 }
 
 function pauseTimer() {
@@ -131,7 +182,9 @@ start_button.addEventListener("click", function() {
 		isPaused = false;
 		setQuoteStyle(true);
 		startTimer();
-		music();
+		if (play_music) {
+			music();
+		}
 		start_button.innerHTML = "Pause";
 		timer_buttons.style.opacity = 0;
 		timer_buttons.style.display = "none";
@@ -141,9 +194,12 @@ start_button.addEventListener("click", function() {
 			quote.style.opacity = 1;
 		}, 2000)
 	} else {
+		start_button.innerHTML = "Start";
 		quote.style.opacity = 0;
 		isPaused = true;
-		music();
+		if (play_music) {
+			music();
+		}
 		setTimeout(function() {
 			setTimeout(function() {
 				setQuoteStyle(false);

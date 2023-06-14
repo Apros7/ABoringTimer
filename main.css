@@ -50,7 +50,7 @@ body {
     font-family: Arial, sans-serif;
 	font-size: 40px;
 	color: #333;
-	margin-bottom: 24px;
+	margin-bottom: 5px;
 }
 
 .button-container {
@@ -79,4 +79,8 @@ button {
 
 button:hover {
 	background-color: #666;
+}
+
+#continue-timer {
+	display: none;
 }
