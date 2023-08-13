@@ -104,17 +104,23 @@ function updateTimer(addedTime) {
     var seconds = Math.floor((totalTimer % (1000 * 60)) / 1000);
     clock.innerHTML = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
 }
-
+minus_thirty_min = document.getElementById("minus-thirty-min")
 minus_one_min = document.getElementById("minus-one-min")
 minus_fifteen_sec = document.getElementById("minus-fifteen-sec")
 plus_one_min = document.getElementById("plus-one-min")
 plus_fifteen_sec = document.getElementById("plus-fifteen-sec")
+plus_thirty_min = document.getElementById("plus-thirty-min")
 reset = document.getElementById("reset-timer")
 
 reset.addEventListener("click", function() {
 	totalTimer = 0;
 	updateTimer(0);
 })
+
+minus_thirty_min.addEventListener("click", function() {
+	const remainingTime = 30 * -60 * 1000;
+	updateTimer(remainingTime);
+});
 
 minus_one_min.addEventListener("click", function() {
 	const remainingTime = -60 * 1000;
@@ -136,6 +142,10 @@ plus_one_min.addEventListener("click", function() {
 	updateTimer(remainingTime);
 });
 
+plus_thirty_min.addEventListener("click", function() {
+	const remainingTime = 30 * 60 * 1000;
+	updateTimer(remainingTime);
+});
 
 start_button = document.getElementById("start-timer")
 timer_buttons = document.getElementById("timer-buttons")
